@@ -5,23 +5,28 @@ from os import getcwd
 
 path = getcwd()
 
+#Find mean of height and weight
 def mean(values):
 	return sum(values) / float(len(values))
-	
+
+#Function to find covariance 
 def covariance(x, mean_x, y, mean_y):
 	covar = 0.0
 	for i in range(len(x)):
 		covar += (x[i] - mean_x) * (y[i] - mean_y)
 	return covar
 
+#Function to find variance
 def variance(list, mean):
 	return sum([(x - mean)**2 for x in list])
 
+#Function to find the coefficients
 def coefficient(covar, var, mean_x, mean_y):
 	b1 = covar / var
 	b0 = mean_y - (b1 * mean_x)
 	return b1, b0
 
+#Function to Load the data from dataset
 def load_csv(dataset):
 	init = 0
 	x = list()
@@ -35,7 +40,8 @@ def load_csv(dataset):
 				x.append(row[0])
 				y.append(row[1])
 	return x, y
-			
+
+#Function to split the database for training and testing
 def split_dataset(x, y):
 	train_x = list()
 	train_y = list()
@@ -46,23 +52,27 @@ def split_dataset(x, y):
 	train_y, test_y = y[0:training_size], y[training_size::]
 	return train_x, train_y, test_x, test_y
 
+#Function to find the equation (y = b1x +b0) 
 def predict(b0, b1, test_x):
 	predicted_y = list()
 	for i in test_x:
 		predicted_y.append(b0 + b1 * i)
 	return predicted_y
-	
+
+#Function to find the root mean square value
 def rmse(predicted_y, test_y):
 	error = 0.0
 	for i in range(len(predicted_y)):
 		sum_error = (predicted_y[i] - test_y[i]) ** 2
 	return sqrt(sum_error / float(len(test_y)))
-		
+
+#Main function 
 def main():
 	try:
 		dataset = path + "/Datasets/height_weight.csv"
 		x, y = load_csv(dataset)
-		#print(x,y)	
+		#print(x,y)
+		#Converts the csv file data into float values
 		x = [float(i) for i in x]
 		y = [float(i) for i in y]		
 		mean_x = mean(x)
